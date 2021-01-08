@@ -1,0 +1,51 @@
+---
+title: "Aqueducts"
+author: "Peter Carlsen, with help from Petra Hermankova"
+date: "7/1/2021"
+output: html_document
+---
+
+# Aqueducts
+
+
+Source of data: Barington Atlas of the Greek and Roman World, downloaded by Petra Hermankova in Oct 2014 from http://awmc.unc.edu/awmc/map_data/shapefiles/aqueducts/ (not the latest version)
+
+```{r}
+#install.packages("sf") # after installing sf package you need to restart R, or you will receive an error message
+library(sf)
+library(leaflet)
+
+#setworking directory
+#setwd
+#create new subfolder in the data folder
+dir.create("../data/aqueducts")
+
+# Now manually paste the zip file into the data folder using file explorer (going in to your folders and dragging the file to the correct folder)
+
+# unzip the dataset from the data folder to the new subfolder (manually, with a different program)
+
+```
+
+Load aqueducts to R
+```{r}
+aqueducts <- st_read("C:/Users/pete7/OneDrive/Documents/Teoriorienteret/Final_project_aqueducts/aqueducts.shp")
+```
+
+See the first six records
+```{r}
+head(aqueducts)
+```
+
+Map the records using Leaflet
+```{r}
+map_aqueducts<- leaflet(width="100%") %>%
+ #addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+ addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+ addPolylines(data = aqueducts, color = "red", weight = 2, opacity = 0.7) %>% 
+  addLegend(position = "topright",
+  colors = c("Red"),
+  labels = c("Aqueducts"), opacity = 1,
+  title = "Aqueducts in the Roman Empire" 
+)
+map_aqueducts
+```
